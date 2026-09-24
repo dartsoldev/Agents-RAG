@@ -10,8 +10,6 @@ backups/
 *.log
 artifacts/
 # Local investigation notebooks may contain provider credentials or private saved outputs.
-*.ipynb
-.ipynb_checkpoints/
 .env.*
 !.env.example
 .vercel/
