@@ -1,0 +1,19 @@
+# Purpose: keep credentials, patient records, local runtimes and generated files out of source control.
+.env
+.venv/
+data/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+backups/
+*.pyc
+*.log
+artifacts/
+# Local investigation notebooks may contain provider credentials or private saved outputs.
+*.ipynb
+.ipynb_checkpoints/
+.env.*
+!.env.example
+.vercel/
+deploy/vercel/public/
+deploy/vercel/vercel.json

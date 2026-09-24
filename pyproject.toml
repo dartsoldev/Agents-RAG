@@ -1,0 +1,14 @@
+# Purpose: define consistent Python formatting, linting and isolated test discovery.
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP"]
+ignore = ["E712"] # SQLAlchemy boolean expressions intentionally use SQL comparisons.
+
+[tool.ruff.lint.per-file-ignores]
+"tests/conftest.py" = ["E402"] # Isolated environment must be configured before app imports.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,37 @@
+# Purpose: local Docker deployment with PostgreSQL and durable application/document volumes.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: arav
+      POSTGRES_USER: arav
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env before using Docker}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U arav -d arav"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  app:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://arav:${POSTGRES_PASSWORD}@db:5432/arav
+      STORAGE_PATH: /app/data/documents
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - document_data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+volumes:
+  postgres_data:
+  document_data:

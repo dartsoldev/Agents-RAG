@@ -1,0 +1,11 @@
+# Purpose: exclude secrets, real case files and development artifacts from container builds.
+.env
+.venv
+.git
+data
+artifacts
+__pycache__
+.pytest_cache
+.ruff_cache
+backups
+*.log
